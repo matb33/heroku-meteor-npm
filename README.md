@@ -26,7 +26,7 @@ Also, a specially tailored `package.json` is used to install our dependencies. I
 
 The `name` and `version` properties are specific to your application. This is a regular package.json file, so all typical configuration options available are possible.
 
-The `engines`.`node` property are required for this particular example due to `bcrypt` requirements (it needs 0.6 or greater).
+The `engines`.`node` property is required for this particular example due to `bcrypt` requirements (it needs 0.6 or greater).
 
 The `scripts`.`install` is used to move installed node modules into the strange location that Meteor prefers: `public/`.
 
