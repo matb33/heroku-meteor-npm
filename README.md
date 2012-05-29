@@ -13,7 +13,7 @@ Also, a specially tailored `package.json` is used to install our dependencies. I
 	"name": "heroku-meteor-npm",
 	"version": "0.0.1",
 	"engines": {
-		"node": "0.6.18"
+		"node": "0.6.x"
 	},
 	"dependencies": {
 		"bcrypt": "0.5.0"
