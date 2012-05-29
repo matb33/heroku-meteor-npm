@@ -2,7 +2,7 @@
 
 This repo contains a working example of a meteor application deployable to Heroku with npm dependencies (compiled).
 
-This is accomplished by leveraging an [existing buildpack by Jordan Sissel](https://github.com/jordansissel/heroku-buildpack-meteor), but with some modifications. I've forked his repository and concatenated his compile script with the one from the nodejs buildpack. This was necessary since we're treating our Meteor project as an npm package (via package.json). This is best practice with Heroku.
+This is accomplished by leveraging an [existing buildpack by Jordan Sissel](https://github.com/jordansissel/heroku-buildpack-meteor), and the [Node.js buildpack](https://github.com/heroku/heroku-buildpack-nodejs). I've forked the Node.js buildpack and then manually merged Jordan's compile script into it. This was necessary since we're treating our Meteor project as an npm package (via package.json). This is considered best practice with Heroku.
 
 Also, a specially tailored `package.json` is used to install our dependencies. In this example, I used bcrypt because its build process is unlike most other node modules -- this one has to be compiled:
 
@@ -11,7 +11,7 @@ Also, a specially tailored `package.json` is used to install our dependencies. I
 ```
 {
 	"name": "heroku-meteor-npm",
-	"version": "0.0.1", 
+	"version": "0.0.1",
 	"engines": {
 		"node": "0.6.x"
 	},
@@ -44,12 +44,22 @@ meteor
 Assuming you've installed locally already:
 
 ```
-heroku create myappname --stack cedar
-heroku config:add BUILDPACK_URL=https://github.com/matb33/heroku-buildpack-meteor.git
+heroku create myappname --stack cedar --buildpack https://github.com/matb33/heroku-buildpack-nodejs.git
 ```
 
-*I don't use the `--buildpack` option because I get a `! Resource not found` error with Jordan's (and my) buildpack.*
+*I've had issues using --buildpack in that I get a `! Resource not found` error. My solution is to split the creation into two commands:*
+
+```
+heroku create myappname --stack cedar
+heroku config:add BUILDPACK_URL=https://github.com/matb33/heroku-buildpack-nodejs.git
+```
+
+Then, push to heroku, launch the web process, and check it out:
 
 ```
 git push heroku master
+heroku ps:scale web=1
+heroku open
 ```
+
+Enjoy!
